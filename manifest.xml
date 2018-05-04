@@ -1,0 +1,1 @@
+<package><depend package="types/base" /><depend package="tutorial/cam_capture" /><depend package="tutorial/driver" /></package>

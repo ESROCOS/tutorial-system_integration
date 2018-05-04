@@ -1,0 +1,6 @@
+ASNACN_DIR: dataview/
+PROJECT_NAME: tutorial-system_integration
+deps:
+- types/base: ''
+- tutorial/cam_capture: ''
+- tutorial/driver: ''

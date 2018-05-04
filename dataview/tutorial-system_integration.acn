@@ -1,0 +1,3 @@
+ESROCOS-tutorial-system-integration DEFINITIONS ::= BEGIN
+    MyDummyInteger[]
+END

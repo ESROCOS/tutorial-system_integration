@@ -1,0 +1,127 @@
+---------------------------------------------------
+-- AADL2.1
+-- TASTE type interfaceview
+-- 
+-- generated code: do not edit
+---------------------------------------------------
+
+PACKAGE interfaceview::IV::camera_capture
+PUBLIC
+
+WITH Taste;
+WITH DataView;
+WITH TASTE_IV_Properties;
+SUBPROGRAM PI_capture
+PROPERTIES
+  Taste::Associated_Queue_Size => 10;
+END PI_capture;
+
+SUBPROGRAM IMPLEMENTATION PI_capture.others
+PROPERTIES
+  Compute_Execution_Time => 0 ms .. 100 ms;
+END PI_capture.others;
+
+SYSTEM camera_capture
+FEATURES
+  PI_capture : PROVIDES SUBPROGRAM ACCESS interfaceview::IV::camera_capture::PI_capture.others {
+    Taste::coordinates => "143857 38196";
+    Taste::RCMoperationKind => sporadic;
+    Taste::RCMperiod => 100 ms;
+    Taste::Deadline => 100 ms;
+    Taste::InterfaceName => "capture";
+  };
+PROPERTIES
+  Source_Language => (CPP);
+  Taste::Active_Interfaces => any;
+  Source_Text => ("/root/esrocos_workspace/install/tutorial/cam_capture/camera_capture.zip");
+END camera_capture;
+
+SYSTEM IMPLEMENTATION camera_capture.others
+END camera_capture.others;
+
+END interfaceview::IV::camera_capture;
+
+PACKAGE interfaceview::IV::Driver
+PUBLIC
+
+WITH interfaceview::IV::camera_capture;
+WITH Taste;
+WITH DataView;
+WITH TASTE_IV_Properties;
+SUBPROGRAM PI_clock
+PROPERTIES
+  Taste::Associated_Queue_Size => 1;
+END PI_clock;
+
+SUBPROGRAM IMPLEMENTATION PI_clock.others
+PROPERTIES
+  Compute_Execution_Time => 0 ms .. 100 ms;
+END PI_clock.others;
+
+SUBPROGRAM RI_trigger_out
+END RI_trigger_out;
+
+SUBPROGRAM IMPLEMENTATION RI_trigger_out.others
+END RI_trigger_out.others;
+
+SYSTEM Driver
+FEATURES
+  PI_clock : PROVIDES SUBPROGRAM ACCESS interfaceview::IV::Driver::PI_clock.others {
+    Taste::coordinates => "98876 38374";
+    Taste::RCMoperationKind => cyclic;
+    Taste::RCMperiod => 100 ms;
+    Taste::Deadline => 100 ms;
+    Taste::InterfaceName => "clock";
+  };
+  RI_trigger_out : REQUIRES SUBPROGRAM ACCESS interfaceview::IV::camera_capture::PI_capture.others {
+    Taste::coordinates => "126764 47294";
+    Taste::RCMoperationKind => any;
+    Taste::InterfaceName => "trigger_out";
+    Taste::labelInheritance => "false";
+  };
+PROPERTIES
+  Source_Language => (CPP);
+  Taste::Active_Interfaces => any;
+  Source_Text => ("/root/esrocos_workspace/install/tutorial/driver/driver.zip");
+END Driver;
+
+SYSTEM IMPLEMENTATION Driver.others
+END Driver.others;
+
+END interfaceview::IV::Driver;
+
+PACKAGE interfaceview::IV
+PUBLIC
+
+WITH interfaceview::IV::camera_capture;
+WITH interfaceview::IV::Driver;
+WITH Taste;
+WITH DataView;
+WITH TASTE_IV_Properties;
+SYSTEM interfaceview
+PROPERTIES
+  Taste::dataView => ("DataView");
+  Taste::dataViewPath => ("tutorial-system_integration_dv.aadl");
+END interfaceview;
+
+SYSTEM IMPLEMENTATION interfaceview.others
+SUBCOMPONENTS
+  camera_capture : SYSTEM interfaceview::IV::camera_capture::camera_capture.others {
+    Taste::coordinates => "138505 38196 159766 60775";
+  };
+  Driver : SYSTEM interfaceview::IV::Driver::Driver.others {
+    Taste::coordinates => "87280 38374 126764 67467";
+  };
+CONNECTIONS
+  camera_capture_PI_capture_Driver_RI_trigger_out : SUBPROGRAM ACCESS camera_capture.PI_capture -> Driver.RI_trigger_out {
+    Taste::coordinates => "126764 47294 134013 47294 134013 35269 143857 35269 143857 38196";
+  };
+END interfaceview.others;
+
+PROPERTIES
+  Taste::dataView => ("DataView");
+  Taste::dataViewPath => ("tutorial-system_integration_dv.aadl");
+  Taste::coordinates => "0 0 297000 210000";
+  Taste::version => "2.0";
+END interfaceview::IV;
+
